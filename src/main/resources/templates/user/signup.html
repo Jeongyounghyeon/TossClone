@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>회원 가입</title>
+</head>
+<body>
+<h2>회원 가입</h2>
+	<form action="/signup" method="post" th:object="${user}">
+		<div th:if="${duplicatedId}">
+			<p style="color: red;">이미 사용 중인 ID입니다. 다른 ID를 입력해주세요.</p>
+		</div>
+		<div th:if="${duplicatedEmail}">
+			<p style="color: red;">이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.</p>
+		</div>
+
+		<label for="id">ID:</label>
+		<input type="text" id="id" name="userId" th:field="*{userId}" required><br>
+
+		<label for="password">비밀번호:</label>
+		<input type="password" id="password" name="password" th:field="*{userPassword}" required><br>
+
+		<label for="name">이름:</label>
+		<input type="text" id="name" name="name" th:field="*{name}" required><br>
+
+		<label for="english-name">영문 이름:</label>
+		<input type="text" id="english-name" name="englishName" th:field="*{englishName}" required><br>
+
+		<label for="dob">생년월일:</label>
+		<input type="date" id="dob" name="dob" th:field="*{dob}" required><br>
+
+		<label for="phone-number">휴대폰 번호:</label>
+		<input type="tel" id="phone-number" name="phoneNumber" th:field="*{phoneNumber}" required><br>
+
+		<label for="email">이메일:</label>
+		<input type="email" id="email" name="email" th:field="*{email}" required><br>
+
+		<button type="submit">가입하기</button>
+	</form>
+</body>
+</html>

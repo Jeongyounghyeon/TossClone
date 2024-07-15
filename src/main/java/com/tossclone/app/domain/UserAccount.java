@@ -1,5 +1,6 @@
 package com.tossclone.app.domain;
 
+import com.tossclone.app.dto.UserAccountDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -51,7 +52,7 @@ public class UserAccount extends AuditingFields {
 
     @Column(nullable = false)
     @Setter
-    private LocalDateTime dob;
+    private LocalDate dob;
 
     @Column(nullable = false,
             length = 15)
@@ -67,7 +68,7 @@ public class UserAccount extends AuditingFields {
                        String userPassword,
                        String name,
                        String englishName,
-                       LocalDateTime dob,
+                       LocalDate dob,
                        String phoneNumber,
                        String email) {
         this.userId = userId;
@@ -84,11 +85,11 @@ public class UserAccount extends AuditingFields {
             String userPassword,
             String name,
             String englishName,
-            LocalDateTime dob,
+            LocalDate dob,
             String phoneNumber,
             String email
     ) {
-        return UserAccount.of(
+        return new UserAccount(
                 userId,
                 userPassword,
                 name,
@@ -96,6 +97,18 @@ public class UserAccount extends AuditingFields {
                 dob,
                 phoneNumber,
                 email
+        );
+    }
+
+    public static UserAccount from(UserAccountDTO userAccountDTO) {
+        return UserAccount.of(
+                userAccountDTO.userId(),
+                userAccountDTO.userPassword(),
+                userAccountDTO.name(),
+                userAccountDTO.englishName(),
+                userAccountDTO.dob(),
+                userAccountDTO.phoneNumber(),
+                userAccountDTO.email()
         );
     }
 
