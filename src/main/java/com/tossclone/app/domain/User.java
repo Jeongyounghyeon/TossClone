@@ -1,6 +1,6 @@
 package com.tossclone.app.domain;
 
-import com.tossclone.app.dto.UserAccountDTO;
+import com.tossclone.app.dto.UserDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
+@Entity(name = "`user`")
 @Table(indexes = {
         @Index(columnList = "email", unique = true),
         @Index(columnList = "createdAt"),
@@ -25,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(callSuper = true)
-public class UserAccount extends AuditingFields {
+public class User extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,13 +64,13 @@ public class UserAccount extends AuditingFields {
     @Setter
     private String email;
 
-    private UserAccount(String userId,
-                       String userPassword,
-                       String name,
-                       String englishName,
-                       LocalDate dob,
-                       String phoneNumber,
-                       String email) {
+    private User(String userId,
+                 String userPassword,
+                 String name,
+                 String englishName,
+                 LocalDate dob,
+                 String phoneNumber,
+                 String email) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.name = name;
@@ -80,7 +80,7 @@ public class UserAccount extends AuditingFields {
         this.email = email;
     }
 
-    public static UserAccount of(
+    public static User of(
             String userId,
             String userPassword,
             String name,
@@ -89,7 +89,7 @@ public class UserAccount extends AuditingFields {
             String phoneNumber,
             String email
     ) {
-        return new UserAccount(
+        return new User(
                 userId,
                 userPassword,
                 name,
@@ -100,22 +100,22 @@ public class UserAccount extends AuditingFields {
         );
     }
 
-    public static UserAccount from(UserAccountDTO userAccountDTO) {
-        return UserAccount.of(
-                userAccountDTO.userId(),
-                userAccountDTO.userPassword(),
-                userAccountDTO.name(),
-                userAccountDTO.englishName(),
-                userAccountDTO.dob(),
-                userAccountDTO.phoneNumber(),
-                userAccountDTO.email()
+    public static User from(UserDTO userDTO) {
+        return User.of(
+                userDTO.userId(),
+                userDTO.userPassword(),
+                userDTO.name(),
+                userDTO.englishName(),
+                userDTO.dob(),
+                userDTO.phoneNumber(),
+                userDTO.email()
         );
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) { return true; }
-        if (!(o instanceof UserAccount that)) { return false; }
+        if (!(o instanceof User that)) { return false; }
         return Objects.equals(userId, that.userId);
     }
 

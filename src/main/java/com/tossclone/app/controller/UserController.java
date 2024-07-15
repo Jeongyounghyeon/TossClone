@@ -1,7 +1,7 @@
 package com.tossclone.app.controller;
 
-import com.tossclone.app.dto.UserAccountDTO;
-import com.tossclone.app.repository.UserAccountRepository;
+import com.tossclone.app.dto.UserDTO;
+import com.tossclone.app.repository.UserRepository;
 import com.tossclone.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
     private final UserService userService;
-    private final UserAccountRepository userAccountRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
         model.addAttribute("user",
-                new UserAccountDTO(
+                new UserDTO(
                         null,
                         null,
                         null,
@@ -35,20 +35,20 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute UserAccountDTO userAccountDTO, Model model) {
-        model.addAttribute("user", userAccountDTO);
+    public String signup(@ModelAttribute UserDTO userDTO, Model model) {
+        model.addAttribute("user", userDTO);
 
-        if (userService.isUserIdDuplicate(userAccountDTO.userId())) {
+        if (userService.isUserIdDuplicate(userDTO.userId())) {
             model.addAttribute("duplicatedId", true);
             return "user/signup";
         }
 
-        if (userService.isEmailDuplicate(userAccountDTO.email())) {
+        if (userService.isEmailDuplicate(userDTO.email())) {
             model.addAttribute("duplicatedEmail", true);
             return "user/signup";
         }
 
-        userService.saveUser(userAccountDTO);
+        userService.saveUser(userDTO);
 
         return "redirect:/";
     }
