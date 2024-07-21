@@ -4,6 +4,7 @@ import com.tossclone.app.domain.User;
 import com.tossclone.app.dto.UserDTO;
 import com.tossclone.app.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,10 @@ public class UserService {
                         User.from(userDTO)
                 )
         );
+    }
+
+    public Optional<UserDTO> findUserByUserId(String userId) {
+        return userRepository.findByUserId(userId)
+                .flatMap(user -> Optional.ofNullable(UserDTO.from(user)));
     }
 }

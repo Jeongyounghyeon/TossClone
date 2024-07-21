@@ -1,7 +1,6 @@
 package com.tossclone.app.controller;
 
 import com.tossclone.app.dto.UserDTO;
-import com.tossclone.app.repository.UserRepository;
 import com.tossclone.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
@@ -50,6 +48,16 @@ public class UserController {
 
         userService.saveUser(userDTO);
 
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    String showLoginForm() {
+        return "user/login";
+    }
+
+    @PostMapping("/login")
+    String successfulLogin() {
         return "redirect:/";
     }
 }
