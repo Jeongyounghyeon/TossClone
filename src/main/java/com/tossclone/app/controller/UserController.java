@@ -1,9 +1,9 @@
 package com.tossclone.app.controller;
 
-import com.tossclone.app.dto.UserDTO;
+import com.tossclone.app.dto.UserJoinDTO;
+import com.tossclone.app.dto.UserUpdateDTO;
 import com.tossclone.app.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -21,7 +20,7 @@ public class UserController {
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
         model.addAttribute("user",
-                new UserDTO(
+                new UserJoinDTO(
                         null,
                         null,
                         null,
@@ -36,20 +35,20 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute UserDTO userDTO, Model model) {
-        model.addAttribute("user", userDTO);
+    public String signup(@ModelAttribute UserJoinDTO userJoinDTO, Model model) {
+        model.addAttribute("user", userJoinDTO);
 
-        if (userService.isUserIdDuplicate(userDTO.userId())) {
+        if (userService.isUserIdDuplicate(userJoinDTO.userId())) {
             model.addAttribute("duplicatedId", true);
             return "user/signup";
         }
 
-        if (userService.isEmailDuplicate(userDTO.email())) {
+        if (userService.isEmailDuplicate(userJoinDTO.email())) {
             model.addAttribute("duplicatedEmail", true);
             return "user/signup";
         }
 
-        userService.saveUser(userDTO);
+        userService.saveUser(userJoinDTO);
 
         return "redirect:/";
     }
@@ -68,9 +67,9 @@ public class UserController {
     String showUserInfo(Model model, Authentication authentication) {
         String userId = authentication.getName();
 
-        UserDTO userDTO = userService.findUserByUserId(userId).get();
+        UserJoinDTO userJoinDTO = userService.findUserByUserId(userId).get();
 
-        model.addAttribute("user", userDTO);
+        model.addAttribute("user", userJoinDTO);
 
         return "user/info";
     }
@@ -79,17 +78,17 @@ public class UserController {
     String showUserInfoEditForm(Model model, Authentication authentication) {
         String userId = authentication.getName();
 
-        UserDTO userDTO = userService.findUserByUserId(userId).get();
+        UserJoinDTO userJoinDTO = userService.findUserByUserId(userId).get();
 
-        model.addAttribute("user", userDTO);
+        model.addAttribute("user", userJoinDTO);
 
         return "user/update";
     }
 
     @PostMapping("/user/info/update")
-    public String editUserInfo(@ModelAttribute UserDTO userDTO, Authentication authentication) {
+    public String editUserInfo(@ModelAttribute UserUpdateDTO userUpdateDTO, Authentication authentication) {
         String userId = authentication.getName();
-        userService.updateUser(userId, userDTO);
+        userService.updateUser(userId, userUpdateDTO);
 
         return "redirect:/";
     }

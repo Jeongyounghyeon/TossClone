@@ -1,6 +1,7 @@
 package com.tossclone.app.domain;
 
-import com.tossclone.app.dto.UserDTO;
+import com.tossclone.app.dto.UserJoinDTO;
+import com.tossclone.app.dto.UserUpdateDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -80,6 +81,15 @@ public class User extends AuditingFields {
         this.email = email;
     }
 
+    public void update(UserUpdateDTO userUpdateDTO) {
+        this.userPassword = userUpdateDTO.userPassword();
+        this.name = userUpdateDTO.name();
+        this.dob = userUpdateDTO.dob();
+        this.englishName = userUpdateDTO.englishName();
+        this.phoneNumber = userUpdateDTO.phoneNumber();
+        this.email = userUpdateDTO.email();
+    }
+
     public static User of(
             String userId,
             String userPassword,
@@ -100,15 +110,15 @@ public class User extends AuditingFields {
         );
     }
 
-    public static User from(UserDTO userDTO) {
+    public static User from(UserJoinDTO userJoinDTO) {
         return User.of(
-                userDTO.userId(),
-                userDTO.userPassword(),
-                userDTO.name(),
-                userDTO.englishName(),
-                userDTO.dob(),
-                userDTO.phoneNumber(),
-                userDTO.email()
+                userJoinDTO.userId(),
+                userJoinDTO.userPassword(),
+                userJoinDTO.name(),
+                userJoinDTO.englishName(),
+                userJoinDTO.dob(),
+                userJoinDTO.phoneNumber(),
+                userJoinDTO.email()
         );
     }
 

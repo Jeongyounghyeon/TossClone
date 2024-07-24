@@ -1,7 +1,8 @@
 package com.tossclone.app.service;
 
 import com.tossclone.app.domain.User;
-import com.tossclone.app.dto.UserDTO;
+import com.tossclone.app.dto.UserJoinDTO;
+import com.tossclone.app.dto.UserUpdateDTO;
 import com.tossclone.app.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -25,33 +26,27 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public UserDTO saveUser(UserDTO userDTO) {
-        return UserDTO.from(
+    public UserJoinDTO saveUser(UserJoinDTO userJoinDTO) {
+        return UserJoinDTO.from(
                 userRepository.save(
-                        User.from(userDTO)
+                        User.from(userJoinDTO)
                 )
         );
     }
 
-    public Optional<UserDTO> findUserByUserId(String userId) {
+    public Optional<UserJoinDTO> findUserByUserId(String userId) {
         return userRepository.findByUserId(userId)
-                .flatMap(user -> Optional.ofNullable(UserDTO.from(user)));
+                .flatMap(user -> Optional.ofNullable(UserJoinDTO.from(user)));
     }
 
-    public UserDTO updateUser(String userId, UserDTO userDTO) {
+    public UserUpdateDTO updateUser(String userId, UserUpdateDTO userUpdateDTO) {
         Optional<User> optionalUser = userRepository.findByUserId(userId);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+            user.update(userUpdateDTO);
 
-            user.setUserPassword(userDTO.userPassword());
-            user.setName(userDTO.name());
-            user.setDob(userDTO.dob());
-            user.setEnglishName(userDTO.englishName());
-            user.setPhoneNumber(userDTO.phoneNumber());
-            user.setEmail(userDTO.email());
-
-            return UserDTO.from(
+            return UserUpdateDTO.from(
                     userRepository.save(user)
             );
         } else {

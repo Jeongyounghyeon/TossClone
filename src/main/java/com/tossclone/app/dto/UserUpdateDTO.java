@@ -4,8 +4,7 @@ import com.tossclone.app.domain.User;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public record UserDTO(
-        String userId,
+public record UserUpdateDTO(
         String userPassword,
         String name,
         String englishName,
@@ -15,9 +14,8 @@ public record UserDTO(
 ) implements
         Serializable {
 
-    public static UserDTO from(User user) {
-        return new UserDTO(
-                user.getUserId(),
+    public static UserUpdateDTO from(User user) {
+        return new UserUpdateDTO(
                 user.getUserPassword(),
                 user.getName(),
                 user.getEnglishName(),

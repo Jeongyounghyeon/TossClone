@@ -1,6 +1,6 @@
 package com.tossclone.app.security;
 
-import com.tossclone.app.dto.UserDTO;
+import com.tossclone.app.dto.UserJoinDTO;
 import com.tossclone.app.service.UserService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserDTO> optionalUserDTO = userService.findUserByUserId(username);
+        Optional<UserJoinDTO> optionalUserDTO = userService.findUserByUserId(username);
         if (optionalUserDTO.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }

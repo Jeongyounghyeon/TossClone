@@ -1,6 +1,6 @@
 package com.tossclone.app.security;
 
-import com.tossclone.app.dto.UserDTO;
+import com.tossclone.app.dto.UserJoinDTO;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,10 +54,10 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl from(UserDTO userDTO) {
+    public static UserDetailsImpl from(UserJoinDTO userJoinDTO) {
         return new UserDetailsImpl(
-                userDTO.userId(),
-                userDTO.userPassword(),
+                userJoinDTO.userId(),
+                userJoinDTO.userPassword(),
                 List.of(new SimpleGrantedAuthority("USER"))
         );
     }
