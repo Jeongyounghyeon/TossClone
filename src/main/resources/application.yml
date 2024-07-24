@@ -1,0 +1,22 @@
+debug: false
+management.endpoints.web.exposure.include: "*"
+logging:
+  exception-conversion-word:
+    com.tossclone.app: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.ype.descriptor.jdbc.BasicBinder: trace
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/toss_clone
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+  h2.console.enabled: true

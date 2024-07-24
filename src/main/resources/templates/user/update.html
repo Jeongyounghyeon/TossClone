@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Profile Edit Form</title>
+</head>
+<body>
+	<form action="/user/info/update" method="post" th:object="${user}">
+		<label for="password">password:</label>
+		<input type="password" id="password" name="password" th:field="*{userPassword}" required><br>
+
+		<label for="name">name:</label>
+		<input type="text" id="name" name="name" th:field="*{name}" required><br>
+
+		<label for="english-name">english name:</label>
+		<input type="text" id="english-name" name="englishName" th:field="*{englishName}" required><br>
+
+		<label for="dob">day of birth:</label>
+		<input type="date" id="dob" name="dob" th:field="*{dob}" required><br>
+
+		<label for="phone-number">phone number:</label>
+		<input type="tel" id="phone-number" name="phoneNumber" th:field="*{phoneNumber}" required><br>
+
+		<label for="email">email:</label>
+		<input type="email" id="email" name="email" th:field="*{email}" required><br>
+
+		<button type="submit">수정하기</button>
+	</form>
+</body>
+</html>
