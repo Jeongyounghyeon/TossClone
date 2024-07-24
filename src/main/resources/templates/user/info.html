@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Profile</title>
+</head>
+<body>
+	<div th:object="${user}">
+		<p>id: <span th:text="*{userId()}"></span></p>
+		<p>password: <span th:text="*{userPassword()}"></span></p>
+		<p>name: <span th:text="*{name()}"></span></p>
+		<p>english name: <span th:text="*{englishName()}"></span></p>
+		<p>day of birth: <span th:text="*{dob()}"></span></p>
+		<p>phone number: <span th:text="*{phoneNumber()}"></span></p>
+		<p>email: <span th:text="*{email()}"></span></p>
+	</div>
+	<button onclick="location.href='/user/info/update'">Edit</button>
+</body>
+</html>

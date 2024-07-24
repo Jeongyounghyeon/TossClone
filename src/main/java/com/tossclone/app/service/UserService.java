@@ -3,6 +3,7 @@ package com.tossclone.app.service;
 import com.tossclone.app.domain.User;
 import com.tossclone.app.dto.UserDTO;
 import com.tossclone.app.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.AccessLevel;
@@ -35,5 +36,28 @@ public class UserService {
     public Optional<UserDTO> findUserByUserId(String userId) {
         return userRepository.findByUserId(userId)
                 .flatMap(user -> Optional.ofNullable(UserDTO.from(user)));
+    }
+
+    public UserDTO updateUser(String userId, UserDTO userDTO) {
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            user.setUserPassword(userDTO.userPassword());
+            user.setName(userDTO.name());
+            user.setDob(userDTO.dob());
+            user.setEnglishName(userDTO.englishName());
+            user.setPhoneNumber(userDTO.phoneNumber());
+            user.setEmail(userDTO.email());
+
+            return UserDTO.from(
+                    userRepository.save(user)
+            );
+        } else {
+            throw new EntityNotFoundException(
+                    String.format("user(%s) does not exist in the repository", userId)
+            );
+        }
     }
 }

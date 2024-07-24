@@ -6,6 +6,7 @@
 </head>
 <body>
 	<div th:if="${#authorization.expression('isAuthenticated()')}">
+		<button th:onclick="|location.href='@{/user/info}'|">회원정보</button>
 		<button th:onclick="|location.href='@{/logout}'|">로그아웃</button>
 	</div>
 	<div th:unless="${#authorization.expression('isAuthenticated()')}">
