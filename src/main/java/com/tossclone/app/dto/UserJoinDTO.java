@@ -1,6 +1,7 @@
 package com.tossclone.app.dto;
 
 import com.tossclone.app.domain.User;
+import com.tossclone.app.domain.UserProfile;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,14 +17,16 @@ public record UserJoinDTO(
         Serializable {
 
     public static UserJoinDTO from(User user) {
+        UserProfile userProfile = user.getUserProfile();
+
         return new UserJoinDTO(
                 user.getId(),
                 user.getPassword(),
-                user.getName(),
-                user.getEnglishName(),
-                user.getDob(),
-                user.getPhoneNumber(),
-                user.getEmail()
+                userProfile.getName(),
+                userProfile.getEnglishName(),
+                userProfile.getDob(),
+                userProfile.getPhoneNumber(),
+                userProfile.getEmail()
         );
     }
 }

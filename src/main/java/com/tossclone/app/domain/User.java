@@ -1,18 +1,21 @@
 package com.tossclone.app.domain;
 
+import static lombok.AccessLevel.*;
+
 import com.tossclone.app.dto.UserJoinDTO;
 import com.tossclone.app.dto.UserUpdateDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.Objects;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name = "`user`")
@@ -21,88 +24,56 @@ import lombok.ToString;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 @ToString(callSuper = true)
 public class User extends AuditingFields {
 
     @Id
     @Column(length = 255)
-    @Setter
     private String id;
 
     @Column(nullable = false,
             length = 255)
-    @Setter
     private String password;
 
-    @Column(nullable = false,
-            length = 255)
-    @Setter
-    private String name;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "id",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false
+    )
+    private UserProfile userProfile;
 
-    @Column(nullable = false,
-            length = 255)
-    @Setter
-    private String englishName;
-
-    @Column(nullable = false)
-    @Setter
-    private LocalDate dob;
-
-    @Column(nullable = false,
-            length = 15)
-    @Setter
-    private String phoneNumber;
-
-    @Column(nullable = false,
-            length = 255)
-    @Setter
-    private String email;
-
-    private User(String id,
-                 String password,
-                 String name,
-                 String englishName,
-                 LocalDate dob,
-                 String phoneNumber,
-                 String email) {
+    private User(
+            String id,
+            String password,
+            UserProfile userProfile
+     ) {
         this.id = id;
         this.password = password;
-        this.name = name;
-        this.englishName = englishName;
-        this.dob = dob;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.userProfile = userProfile;
     }
 
     public void update(UserUpdateDTO userUpdateDTO) {
         this.password = userUpdateDTO.password();
-        this.name = userUpdateDTO.name();
-        this.dob = userUpdateDTO.dob();
-        this.englishName = userUpdateDTO.englishName();
-        this.phoneNumber = userUpdateDTO.phoneNumber();
-        this.email = userUpdateDTO.email();
+
+        this.userProfile.update(userUpdateDTO);
     }
 
     public static User of(
-            String userId,
-            String userPassword,
+            String id,
+            String password,
             String name,
             String englishName,
             LocalDate dob,
             String phoneNumber,
             String email
     ) {
-        return new User(
-                userId,
-                userPassword,
-                name,
-                englishName,
-                dob,
-                phoneNumber,
-                email
-        );
+        UserProfile userProfile = UserProfile.of(id, name, englishName, dob, phoneNumber, email);
+
+        return new User(id, password, userProfile);
     }
 
     public static User from(UserJoinDTO userJoinDTO) {

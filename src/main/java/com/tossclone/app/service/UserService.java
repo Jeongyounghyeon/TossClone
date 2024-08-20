@@ -3,6 +3,7 @@ package com.tossclone.app.service;
 import com.tossclone.app.domain.User;
 import com.tossclone.app.dto.UserJoinDTO;
 import com.tossclone.app.dto.UserUpdateDTO;
+import com.tossclone.app.repository.UserProfileRepository;
 import com.tossclone.app.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -17,13 +18,14 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserProfileRepository userProfileRepository;
 
     public boolean isIdDuplicate(String Id) {
         return userRepository.existsById(Id);
     }
 
     public boolean isEmailDuplicate(String email) {
-        return userRepository.existsByEmail(email);
+        return userProfileRepository.existsByEmail(email);
     }
 
     public UserJoinDTO saveUser(UserJoinDTO userJoinDTO) {
