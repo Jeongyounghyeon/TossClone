@@ -4,8 +4,6 @@ import com.tossclone.app.dto.UserJoinDTO;
 import com.tossclone.app.dto.UserUpdateDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
@@ -29,17 +27,14 @@ import lombok.ToString;
 public class User extends AuditingFields {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(length = 255)
     @Setter
-    private String userId;
+    private String id;
 
     @Column(nullable = false,
             length = 255)
     @Setter
-    private String userPassword;
+    private String password;
 
     @Column(nullable = false,
             length = 255)
@@ -65,15 +60,15 @@ public class User extends AuditingFields {
     @Setter
     private String email;
 
-    private User(String userId,
-                 String userPassword,
+    private User(String id,
+                 String password,
                  String name,
                  String englishName,
                  LocalDate dob,
                  String phoneNumber,
                  String email) {
-        this.userId = userId;
-        this.userPassword = userPassword;
+        this.id = id;
+        this.password = password;
         this.name = name;
         this.englishName = englishName;
         this.dob = dob;
@@ -82,7 +77,7 @@ public class User extends AuditingFields {
     }
 
     public void update(UserUpdateDTO userUpdateDTO) {
-        this.userPassword = userUpdateDTO.userPassword();
+        this.password = userUpdateDTO.password();
         this.name = userUpdateDTO.name();
         this.dob = userUpdateDTO.dob();
         this.englishName = userUpdateDTO.englishName();
@@ -112,8 +107,8 @@ public class User extends AuditingFields {
 
     public static User from(UserJoinDTO userJoinDTO) {
         return User.of(
-                userJoinDTO.userId(),
-                userJoinDTO.userPassword(),
+                userJoinDTO.id(),
+                userJoinDTO.password(),
                 userJoinDTO.name(),
                 userJoinDTO.englishName(),
                 userJoinDTO.dob(),
@@ -126,11 +121,11 @@ public class User extends AuditingFields {
     public boolean equals(Object o) {
         if (this == o) { return true; }
         if (!(o instanceof User that)) { return false; }
-        return Objects.equals(userId, that.userId);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(id);
     }
 }

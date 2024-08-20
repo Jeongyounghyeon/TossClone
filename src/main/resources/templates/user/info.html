@@ -6,8 +6,8 @@
 </head>
 <body>
 	<div th:object="${user}">
-		<p>id: <span th:text="*{userId()}"></span></p>
-		<p>password: <span th:text="*{userPassword()}"></span></p>
+		<p>id: <span th:text="*{id()}"></span></p>
+		<p>password: <span th:text="*{password()}"></span></p>
 		<p>name: <span th:text="*{name()}"></span></p>
 		<p>english name: <span th:text="*{englishName()}"></span></p>
 		<p>day of birth: <span th:text="*{dob()}"></span></p>

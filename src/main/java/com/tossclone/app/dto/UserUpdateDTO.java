@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public record UserUpdateDTO(
-        String userPassword,
+        String password,
         String name,
         String englishName,
         LocalDate dob,
@@ -16,7 +16,7 @@ public record UserUpdateDTO(
 
     public static UserUpdateDTO from(User user) {
         return new UserUpdateDTO(
-                user.getUserPassword(),
+                user.getPassword(),
                 user.getName(),
                 user.getEnglishName(),
                 user.getDob(),

@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public record UserJoinDTO(
-        String userId,
-        String userPassword,
+        String id,
+        String password,
         String name,
         String englishName,
         LocalDate dob,
@@ -17,8 +17,8 @@ public record UserJoinDTO(
 
     public static UserJoinDTO from(User user) {
         return new UserJoinDTO(
-                user.getUserId(),
-                user.getUserPassword(),
+                user.getId(),
+                user.getPassword(),
                 user.getName(),
                 user.getEnglishName(),
                 user.getDob(),

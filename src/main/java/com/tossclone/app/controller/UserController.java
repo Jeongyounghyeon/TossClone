@@ -38,7 +38,7 @@ public class UserController {
     public String signup(@ModelAttribute UserJoinDTO userJoinDTO, Model model) {
         model.addAttribute("user", userJoinDTO);
 
-        if (userService.isUserIdDuplicate(userJoinDTO.userId())) {
+        if (userService.isIdDuplicate(userJoinDTO.id())) {
             model.addAttribute("duplicatedId", true);
             return "user/signup";
         }
@@ -65,9 +65,9 @@ public class UserController {
 
     @GetMapping("/user/info")
     String showUserInfo(Model model, Authentication authentication) {
-        String userId = authentication.getName();
+        String id = authentication.getName();
 
-        UserJoinDTO userJoinDTO = userService.findUserByUserId(userId).get();
+        UserJoinDTO userJoinDTO = userService.findUserById(id).get();
 
         model.addAttribute("user", userJoinDTO);
 
@@ -76,9 +76,9 @@ public class UserController {
 
     @GetMapping("/user/info/update")
     String showUserInfoEditForm(Model model, Authentication authentication) {
-        String userId = authentication.getName();
+        String id = authentication.getName();
 
-        UserJoinDTO userJoinDTO = userService.findUserByUserId(userId).get();
+        UserJoinDTO userJoinDTO = userService.findUserById(id).get();
 
         model.addAttribute("user", userJoinDTO);
 
@@ -87,8 +87,8 @@ public class UserController {
 
     @PostMapping("/user/info/update")
     public String editUserInfo(@ModelAttribute UserUpdateDTO userUpdateDTO, Authentication authentication) {
-        String userId = authentication.getName();
-        userService.updateUser(userId, userUpdateDTO);
+        String id = authentication.getName();
+        userService.updateUser(id, userUpdateDTO);
 
         return "redirect:/";
     }

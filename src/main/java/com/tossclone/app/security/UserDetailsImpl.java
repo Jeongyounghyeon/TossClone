@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private String userId;
-    private String userPassword;
+    private String id;
+    private String password;
     private List<GrantedAuthority> authorities;
 
     @Override
@@ -20,12 +20,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userPassword;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return userId;
+        return id;
     }
 
     @Override
@@ -48,16 +48,16 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    private UserDetailsImpl(String userId, String userPassword, List<GrantedAuthority> authorities) {
-        this.userId = userId;
-        this.userPassword = userPassword;
+    private UserDetailsImpl(String id, String userPassword, List<GrantedAuthority> authorities) {
+        this.id = id;
+        this.password = userPassword;
         this.authorities = authorities;
     }
 
     public static UserDetailsImpl from(UserJoinDTO userJoinDTO) {
         return new UserDetailsImpl(
-                userJoinDTO.userId(),
-                userJoinDTO.userPassword(),
+                userJoinDTO.id(),
+                userJoinDTO.password(),
                 List.of(new SimpleGrantedAuthority("USER"))
         );
     }

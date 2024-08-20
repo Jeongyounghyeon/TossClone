@@ -18,8 +18,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public boolean isUserIdDuplicate(String userId) {
-        return userRepository.existsByUserId(userId);
+    public boolean isIdDuplicate(String Id) {
+        return userRepository.existsById(Id);
     }
 
     public boolean isEmailDuplicate(String email) {
@@ -34,13 +34,13 @@ public class UserService {
         );
     }
 
-    public Optional<UserJoinDTO> findUserByUserId(String userId) {
-        return userRepository.findByUserId(userId)
+    public Optional<UserJoinDTO> findUserById(String userId) {
+        return userRepository.findById(userId)
                 .flatMap(user -> Optional.ofNullable(UserJoinDTO.from(user)));
     }
 
     public UserUpdateDTO updateUser(String userId, UserUpdateDTO userUpdateDTO) {
-        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
