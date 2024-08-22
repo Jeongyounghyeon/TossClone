@@ -12,6 +12,6 @@ public class JpaConfig {
 
     @Bean
     public AuditorAware<String> auditorAware() {
-        return () -> Optional.of("Jeongyounghyeon");    // todo: 스프링 시큐리티 인증 기능 구현을 통해 구현할 사항
+        return () -> Optional.of("tossclone-app");
     }
 }
